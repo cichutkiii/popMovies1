@@ -22,8 +22,7 @@ public class JsonUtilities {
             "http://api.themoviedb.org/3/movie";
     private static final String STATIC_THUMBNAIL_URL =
             "http://image.tmdb.org/t/p/w185";
-    private static final String TOP_RATED = "top_rated";
-    private static final String POPULAR = "popular";
+
     private static final String API_KEY = "api_key";
     private static final String RESULTS = "results";
     private static final String ID = "id";
@@ -34,10 +33,10 @@ public class JsonUtilities {
     private static final String OVERVIEW = "overview";
 
 
-    public static URL buildJsonUrl() {
+    public static URL buildJsonUrl(String path) {
 
         Uri builtUri = Uri.parse(STATIC_MOVIES_URL).buildUpon()
-                .appendPath(TOP_RATED)
+                .appendPath(path)
                 .appendQueryParameter(API_KEY, StaticData.API_KEY)
                 .build();
 
@@ -96,7 +95,7 @@ public class JsonUtilities {
             JSONObject jsonObject = new JSONObject(jsonString);
             JSONArray jsonArray = (JSONArray) jsonObject.get(RESULTS);
             for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonSingleObject = jsonArray.getJSONObject(i);
+                JSONObject jsonSingleObject = jsonArray.optJSONObject(i);
                 Movie movie = new Movie();
                 movie.setId(jsonSingleObject.optString(ID));
                 movie.setOriginalTitle(jsonSingleObject.optString(ORIGINAL_TITLE));
