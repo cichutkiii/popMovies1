@@ -1,5 +1,6 @@
 package pl.preclaw.popmovies;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private String jsonResponse;
     private ArrayList<Movie> movieArrayList;
     private GridView gridView;
+    public static String MOVIE = "Movie";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +81,12 @@ public class MainActivity extends AppCompatActivity {
                 gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View v,
                                             int position, long id) {
-                        Toast.makeText(MainActivity.this, "" + position,
-                                Toast.LENGTH_SHORT).show();
+                        Movie tempMovie = movieArrayList.get(position);
+                        Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                        intent.putExtra(MOVIE, tempMovie);
+                        startActivity(intent);
+//                        Toast.makeText(MainActivity.this, "" + position,
+//                                Toast.LENGTH_SHORT).show();
                     }
                 });
             }

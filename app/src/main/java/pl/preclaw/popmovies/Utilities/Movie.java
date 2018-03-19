@@ -1,8 +1,9 @@
 package pl.preclaw.popmovies.Utilities;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class Movie {
+public class Movie implements Serializable {
 
     private String originalTitle;
     private URL thumbnail;

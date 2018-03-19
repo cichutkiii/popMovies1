@@ -45,37 +45,46 @@ public class MovieAdapter extends BaseAdapter {
         return 0;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        ViewHolderItem viewHolderItem;
 
         View gridView;
         if (convertView == null) {
 
-            gridView = new View(context);
+            LayoutInflater inflater = (LayoutInflater) context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.movie_item, parent, false);
 
             // get layout from mobile.xml
-            gridView = inflater.inflate(R.layout.movie_item, null);
+            viewHolderItem = new ViewHolderItem();
 
             // set value into textview
-            TextView textView = (TextView) gridView
+            viewHolderItem.textViewItem = (TextView) convertView
                     .findViewById(R.id.tv_title);
-            textView.setText(movieArrayList.get(position).getOriginalTitle());
-
-            // set image based on selected text
-            ImageView imageView = (ImageView) gridView
+            viewHolderItem.imageView = (ImageView) convertView
                     .findViewById(R.id.iv_thumbnail);
-            Picasso.with(context).load(movieArrayList.get(position).getThumbnail().toString()).into(imageView);
-
-
-
-
-
-        } else {
-            gridView = (View) convertView;
+            convertView.setTag(viewHolderItem);
+        }  else {
+            viewHolderItem = (ViewHolderItem) convertView.getTag();
         }
 
-        return gridView;
+
+
+
+            viewHolderItem.textViewItem.setText(movieArrayList.get(position).getOriginalTitle());
+
+            // set image based on selected text
+
+            Picasso.with(context).load(movieArrayList.get(position).getThumbnail().toString()).into(viewHolderItem.imageView);
+
+        return convertView;
     }
 }
+    class ViewHolderItem{
+     TextView textViewItem;
+     ImageView imageView;
+
+    }
